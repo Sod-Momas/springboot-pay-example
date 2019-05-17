@@ -5,13 +5,13 @@ import com.github.wxpay.sdk.WXPayConfig;
 import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
 import lombok.extern.slf4j.Slf4j;
-import sun.misc.BASE64Decoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -150,7 +150,7 @@ public class WXPayClient extends WXPay {
 
         String reqInfo = notifyMap.get("req_info");
         //（1）对加密串A做base64解码，得到加密串B
-        byte[] bytes = new BASE64Decoder().decodeBuffer(reqInfo);
+        byte[] bytes = Base64.getDecoder().decode(reqInfo);
 
         //（2）对商户key做md5，得到32位小写key* ( key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置 )
         Cipher cipher = Cipher.getInstance(ALGORITHM_MODE_PADDING);
